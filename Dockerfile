@@ -1,23 +1,11 @@
-# Use Maven to build the application
-FROM maven:3.9.2-eclipse-temurin-17 AS build
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
-
-# copy pom and source code
-COPY pom.xml ./
+COPY pom.xml .
 COPY src ./src
+RUN mvn -B -DskipTests package
 
-# build the jar (skip tests to speed up build)
-RUN mvn clean package -DskipTests
-
-# second stage: run the application
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 WORKDIR /app
-
-# copy the jar from the build stage
-COPY --from=build /app/target/book-api-0.0.1-SNAPSHOT.jar ./book-api.jar
-
-# expose port
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# run the jar
-ENTRYPOINT ["java","-jar","/app/book-api.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]
