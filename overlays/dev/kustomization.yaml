@@ -1,0 +1,9 @@
+namespace: book-dev
+
+resources:
+  - ../../base
+  - namespace.yaml
+
+images:
+  - name: your-dockerhub-id/book-api
+    newTag: v1
