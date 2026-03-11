@@ -15,26 +15,34 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
       - name: Cache Maven packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build with Maven
-        run: mvn clean package --batch-mode
+      - name: Build and test with Maven
+        run: mvn clean verify --batch-mode
 
       - name: Build Docker image
         run: |
-          docker build -t book-api:${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/book-api:${{ github.sha }} .
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/book-api:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/book-api:latest
 
-      - name: Run tests in container
+      - name: Login to Docker Hub
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          docker run --rm book-api:${{ github.sha }} java -jar /app/book-api.jar --spring.main.web-environment=false
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Push Docker image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/book-api:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/book-api:latest
