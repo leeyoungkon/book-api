@@ -5,5 +5,5 @@ resources:
   - namespace.yaml
 
 images:
-  - name: your-dockerhub-id/book-api
+  - name: yklee2002/book-api
     newTag: v1
