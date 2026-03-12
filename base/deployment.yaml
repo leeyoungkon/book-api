@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: book-api
-          image: yklee2002/book-api
+          image: yklee2002/book-api:latest
           ports:
             - containerPort: 8080
           readinessProbe:
