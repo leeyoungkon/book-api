@@ -6,4 +6,4 @@ resources:
 
 images:
   - name: yklee2002/book-api
-    newTag: v1
+    newTag: latest
