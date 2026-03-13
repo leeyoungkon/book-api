@@ -6,6 +6,7 @@ spec:
   selector:
     app: book-api
   ports:
-    - port: 80
+    - port: 8082
       targetPort: 8080
-  type: ClusterIP
+      nodePort: 30102
+  type: NodePort

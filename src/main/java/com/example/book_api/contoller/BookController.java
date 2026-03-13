@@ -1,13 +1,24 @@
 package com.example.book_api.contoller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.book_api.model.Book;
+import com.example.book_api.service.BookService;
+
 @Controller
 public class BookController {
+
+    private final BookService bookService;
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
     
     @GetMapping("/book")
     @ResponseBody
@@ -21,6 +32,13 @@ public class BookController {
         // put the parameter into the view model
         model.addAttribute("bookName", bookName);
         // view resolver will look for templates/index.html (Thymeleaf)
+        return "index";
+    }
+
+    @GetMapping("/books")
+    public String books(Model model) {
+        List<Book> books = bookService.findAllBooks();
+        model.addAttribute("books", books);
         return "index";
     }
 }
