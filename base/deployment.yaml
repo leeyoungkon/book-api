@@ -18,7 +18,7 @@ spec:
         - name: book-api
           image: yklee2002/book-api
           ports:
-            - containerPort: 8080
+            - containerPort: 8082
           resources:
             requests:
               cpu: "100m"
