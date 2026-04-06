@@ -34,5 +34,7 @@
 </table>
 
 <div class="empty" th:if="${books == null or #lists.isEmpty(books)}">조회된 데이터가 없습니다.</div>
+
+검색 도서명: <span th:text="${bookName}"></span> <br>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class BookController {
         return "index";
     }
 
-    @GetMapping("/books")
+    @GetMapping("/allbooks")
     public String books(Model model) {
         List<Book> books = bookService.findAllBooks();
         model.addAttribute("books", books);

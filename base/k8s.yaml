@@ -5,7 +5,7 @@ metadata:
   labels:
     app: book-api
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: book-api
@@ -18,7 +18,7 @@ spec:
         - name: book-api
           image: yklee2002/book-api
           ports:
-            - containerPort: 8082
+            - containerPort: 8080
           resources:
             requests:
               cpu: "100m"
@@ -27,3 +27,16 @@ spec:
               cpu: "500m"
               memory: "512Mi"
           
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: book-api
+spec:
+  selector:
+    app: book-api
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30102
+  type: NodePort
