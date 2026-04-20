@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.book_api.model.Book;
 import com.example.book_api.repository.BookRepository;
@@ -24,6 +26,11 @@ public class BookService {
 
     public Optional<Book> findBookById(Integer id) {
         return bookRepository.findById(id);
+    }
+
+    public Book findBookByIdOrThrow(Integer id) {
+        return findBookById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found: " + id));
     }
 
     public Book createBook(Book book) {

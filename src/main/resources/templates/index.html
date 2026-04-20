@@ -14,6 +14,15 @@
 <body>
 <h1>Book Table</h1>
 
+<form action="/book" method="get" style="margin-bottom: 16px;">
+    <label for="id">검색할 책 ID:</label>
+    <input id="id" name="id" type="number" min="1" th:value="${searchId}" required>
+    <button type="submit">검색</button>
+    <a href="/books" style="margin-left: 8px;">전체 목록</a>
+</form>
+
+<div class="empty" th:if="${message != null}" th:text="${message}"></div>
+
 <table th:if="${books != null and !#lists.isEmpty(books)}">
     <thead>
     <tr>
