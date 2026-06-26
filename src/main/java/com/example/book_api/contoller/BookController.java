@@ -14,7 +14,7 @@ import com.example.book_api.model.Book;
 import com.example.book_api.service.BookService;
 
 @Controller
-public class BookController {
+public class BookController { //TEST
 
     private final BookService bookService;
 
