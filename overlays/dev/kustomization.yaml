@@ -2,5 +2,5 @@ resources:
   - ../../base
 
 images:
-  - name: yklee2002/book-api
+  - name: ratthanak2004-source/book-api
     newTag: latest
